@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>字典管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cancel-button {
+            padding: 10px 20px;
+            background-color: #f2f2f2;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:if="${dictionary.id == null}">添加字典项</h1>
+    <h1 th:if="${dictionary.id != null}">编辑字典项</h1>
+    <form th:action="@{/dictionary/save}" th:object="${dictionary}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-group">
+            <label for="type">类型</label>
+            <input type="text" id="type" th:field="*{type}" required />
+        </div>
+        <div class="form-group">
+            <label for="code">代码</label>
+            <input type="text" id="code" th:field="*{code}" required />
+        </div>
+        <div class="form-group">
+            <label for="name">名称</label>
+            <input type="text" id="name" th:field="*{name}" required />
+        </div>
+        <div class="form-group">
+            <label for="sort">排序</label>
+            <input type="number" id="sort" th:field="*{sort}" />
+        </div>
+        <div class="form-group">
+            <label for="status">状态</label>
+            <select id="status" th:field="*{status}">
+                <option value="active">激活</option>
+                <option value="inactive">未激活</option>
+            </select>
+        </div>
+        <button type="submit" class="submit-button">保存</button>
+        <a href="/dictionary/list" class="cancel-button">取消</a>
+    </form>
+</body>
+</html>

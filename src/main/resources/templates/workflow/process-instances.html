@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>流程实例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>流程实例</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>流程实例ID</th>
+                <th>流程定义ID</th>
+                <th>名称</th>
+                <th>业务键</th>
+                <th>状态</th>
+                <th>启动人</th>
+                <th>启动时间</th>
+                <th>完成时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="processInstance : ${processInstances}">
+                <td th:text="${processInstance.id}"></td>
+                <td th:text="${processInstance.processInstanceId}"></td>
+                <td th:text="${processInstance.processDefinitionId}"></td>
+                <td th:text="${processInstance.name}"></td>
+                <td th:text="${processInstance.businessKey}"></td>
+                <td th:text="${processInstance.status}"></td>
+                <td th:text="${processInstance.startedBy}"></td>
+                <td th:text="${#dates.format(processInstance.startedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${processInstance.completedTime != null ? #dates.format(processInstance.completedTime, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

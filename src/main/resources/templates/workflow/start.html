@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>启动流程</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, input[type="text"], input[type="date"], input[type="number"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+        }
+        .form-section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-section h2 {
+            margin-top: 0;
+            color: #555;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>启动流程</h1>
+    <div th:if="${message}" class="message">
+        <p th:text="${message}"></p>
+    </div>
+    <form th:action="@{/workflow/start}" method="post">
+        <div class="form-group">
+            <label for="processDefinitionKey">流程定义</label>
+            <select id="processDefinitionKey" name="processDefinitionKey" required>
+                <option value="">请选择流程定义</option>
+                <option th:each="processDefinition : ${processDefinitions}" 
+                        th:value="${processDefinition.key}" 
+                        th:text="${processDefinition.name + ' (v' + processDefinition.version + ')'}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="businessKey">业务键</label>
+            <input type="text" id="businessKey" name="businessKey" placeholder="输入业务键" />
+        </div>
+        
+        <div class="form-section">
+            <h2>请假表单</h2>
+            <div class="form-group">
+                <label for="employeeName">员工姓名</label>
+                <input type="text" id="employeeName" name="employeeName" required placeholder="请输入员工姓名" />
+            </div>
+            <div class="form-group">
+                <label for="department">部门</label>
+                <input type="text" id="department" name="department" required placeholder="请输入部门" />
+            </div>
+            <div class="form-group">
+                <label for="leaveType">请假类型</label>
+                <select id="leaveType" name="leaveType" required>
+                    <option value="">请选择请假类型</option>
+                    <option value="annual">年假</option>
+                    <option value="sick">病假</option>
+                    <option value="personal">事假</option>
+                    <option value="other">其他</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="startDate">开始日期</label>
+                <input type="date" id="startDate" name="startDate" required />
+            </div>
+            <div class="form-group">
+                <label for="endDate">结束日期</label>
+                <input type="date" id="endDate" name="endDate" required />
+            </div>
+            <div class="form-group">
+                <label for="days">请假天数</label>
+                <input type="number" id="days" name="days" required min="1" placeholder="请输入请假天数" />
+            </div>
+            <div class="form-group">
+                <label for="reason">请假原因</label>
+                <textarea id="reason" name="reason" required placeholder="请输入请假原因"></textarea>
+            </div>
+        </div>
+        
+        <button type="submit" class="submit-button">启动流程</button>
+    </form>
+</body>
+</html>

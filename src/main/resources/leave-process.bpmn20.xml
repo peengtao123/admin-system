@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" 
+             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" 
+             xmlns:flowable="http://flowable.org/bpmn" 
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" 
+             id="Definitions_1" 
+             targetNamespace="http://bpmn.io/schema/bpmn">
+  <process id="leaveProcess" name="请假流程" isExecutable="true">
+    <startEvent id="StartEvent_1" name="开始" />
+    <userTask id="UserTask_1" name="填写请假表单">
+      <extensionElements>
+        <flowable:formProperty id="employeeName" name="员工姓名" type="string" required="true" />
+        <flowable:formProperty id="department" name="部门" type="string" required="true" />
+        <flowable:formProperty id="leaveType" name="请假类型" type="enum" required="true">
+          <flowable:value id="annual" name="年假" />
+          <flowable:value id="sick" name="病假" />
+          <flowable:value id="personal" name="事假" />
+          <flowable:value id="other" name="其他" />
+        </flowable:formProperty>
+        <flowable:formProperty id="startDate" name="开始日期" type="date" required="true" />
+        <flowable:formProperty id="endDate" name="结束日期" type="date" required="true" />
+        <flowable:formProperty id="days" name="请假天数" type="long" required="true" />
+        <flowable:formProperty id="reason" name="请假原因" type="string" required="true" />
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="SequenceFlow_1" sourceRef="StartEvent_1" targetRef="UserTask_1" />
+    <userTask id="UserTask_2" name="部门经理审批" >
+      <extensionElements>
+        <flowable:formProperty id="approved" name="是否批准" type="boolean" required="true" />
+        <flowable:formProperty id="comment" name="审批意见" type="string" />
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="SequenceFlow_2" sourceRef="UserTask_1" targetRef="UserTask_2" />
+    <exclusiveGateway id="ExclusiveGateway_1" name="审批决策" />
+    <sequenceFlow id="SequenceFlow_3" sourceRef="UserTask_2" targetRef="ExclusiveGateway_1" />
+    <endEvent id="EndEvent_1" name="流程结束" />
+    <sequenceFlow id="SequenceFlow_4" sourceRef="ExclusiveGateway_1" targetRef="EndEvent_1">
+      <conditionExpression xsi:type="tFormalExpression">${!approved}</conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="ExclusiveGateway_2" name="天数判断" />
+    <sequenceFlow id="SequenceFlow_5" sourceRef="ExclusiveGateway_1" targetRef="ExclusiveGateway_2">
+      <conditionExpression xsi:type="tFormalExpression">${approved}</conditionExpression>
+    </sequenceFlow>
+    <userTask id="UserTask_3" name="总经理审批" >
+      <extensionElements>
+        <flowable:formProperty id="gmApproved" name="是否批准" type="boolean" required="true" />
+        <flowable:formProperty id="gmComment" name="审批意见" type="string" />
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="SequenceFlow_6" sourceRef="ExclusiveGateway_2" targetRef="UserTask_3">
+      <conditionExpression xsi:type="tFormalExpression">${days &gt; 3}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="SequenceFlow_7" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1">
+      <conditionExpression xsi:type="tFormalExpression">${days &lt;= 3}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="SequenceFlow_8" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="leaveProcess">
+      <bpmndi:BPMNShape id="StartEvent_1_shape" bpmnElement="StartEvent_1">
+        <omgdc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1_shape" bpmnElement="UserTask_1">
+        <omgdc:Bounds x="250" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_2_shape" bpmnElement="UserTask_2">
+        <omgdc:Bounds x="400" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1_shape" bpmnElement="ExclusiveGateway_1">
+        <omgdc:Bounds x="550" y="102" width="40" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_shape" bpmnElement="EndEvent_1">
+        <omgdc:Bounds x="700" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_2_shape" bpmnElement="ExclusiveGateway_2">
+        <omgdc:Bounds x="550" y="200" width="40" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_3_shape" bpmnElement="UserTask_3">
+        <omgdc:Bounds x="400" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1_edge" bpmnElement="SequenceFlow_1">
+        <omgdi:waypoint x="209" y="120" />
+        <omgdi:waypoint x="250" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_2_edge" bpmnElement="SequenceFlow_2">
+        <omgdi:waypoint x="350" y="120" />
+        <omgdi:waypoint x="400" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_3_edge" bpmnElement="SequenceFlow_3">
+        <omgdi:waypoint x="500" y="120" />
+        <omgdi:waypoint x="550" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_4_edge" bpmnElement="SequenceFlow_4">
+        <omgdi:waypoint x="590" y="120" />
+        <omgdi:waypoint x="700" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_5_edge" bpmnElement="SequenceFlow_5">
+        <omgdi:waypoint x="570" y="142" />
+        <omgdi:waypoint x="570" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_6_edge" bpmnElement="SequenceFlow_6">
+        <omgdi:waypoint x="590" y="220" />
+        <omgdi:waypoint x="450" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_7_edge" bpmnElement="SequenceFlow_7">
+        <omgdi:waypoint x="570" y="240" />
+        <omgdi:waypoint x="700" y="240" />
+        <omgdi:waypoint x="700" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_8_edge" bpmnElement="SequenceFlow_8">
+        <omgdi:waypoint x="450" y="330" />
+        <omgdi:waypoint x="700" y="330" />
+        <omgdi:waypoint x="700" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

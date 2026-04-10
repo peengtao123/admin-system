@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>完成任务</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>完成任务</h1>
+    <div th:if="${message}" class="message">
+        <p th:text="${message}"></p>
+    </div>
+    <form th:action="@{/workflow/complete-task}" method="post">
+        <input type="hidden" name="taskId" th:value="${taskId}" />
+        <div class="form-group">
+            <label>任务变量</label>
+            <p>可在此处添加任务变量，格式为 key=value</p>
+            <input type="text" name="var1" placeholder="变量1，如：approved=true" />
+            <input type="text" name="var2" placeholder="变量2" />
+            <input type="text" name="var3" placeholder="变量3" />
+        </div>
+        <button type="submit" class="submit-button">完成任务</button>
+    </form>
+</body>
+</html>

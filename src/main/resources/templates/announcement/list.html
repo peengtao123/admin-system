@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>公告管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .action {
+            text-align: center;
+        }
+        .add-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .edit-button {
+            padding: 4px 8px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        .delete-button {
+            padding: 4px 8px;
+            background-color: #f44336;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>公告管理</h1>
+    <a href="/announcement/form" class="add-button">添加公告</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>类型</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="announcement : ${announcements}">
+                <td th:text="${announcement.id}"></td>
+                <td th:text="${announcement.title}"></td>
+                <td th:text="${announcement.type}"></td>
+                <td th:text="${announcement.status}"></td>
+                <td th:text="${#dates.format(announcement.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td class="action">
+                    <a href="/announcement/form?id=${announcement.id}" class="edit-button">编辑</a>
+                    <a href="/announcement/delete?id=${announcement.id}" class="delete-button" onclick="return confirm('确定要删除吗？');">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
