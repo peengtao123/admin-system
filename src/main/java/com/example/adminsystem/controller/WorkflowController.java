@@ -74,7 +74,9 @@ public class WorkflowController {
     
     @GetMapping("/complete-task")
     public String completeTaskForm(@RequestParam String taskId, Model model) {
+        Task task = workflowService.getTaskById(taskId);
         model.addAttribute("taskId", taskId);
+        model.addAttribute("taskName", task.getName());
         return "workflow/complete-task";
     }
     

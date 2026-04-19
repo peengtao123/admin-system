@@ -48,10 +48,13 @@ public class SecurityConfig {
             if (user == null) {
                 throw new org.springframework.security.core.userdetails.UsernameNotFoundException("User not found");
             }
+            var roles = user.getRoles().stream()
+                .map(role -> role.getName())
+                .toArray(String[]::new);
             return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole())
+                .roles(roles)
                 .build();
         };
     }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4" th:text="${permission.id != null ? '编辑权限' : '添加权限'}"></h1>
+        <form th:action="/permission/save" th:object="${permission}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div class="mb-3">
+                <label for="name" class="form-label">名称</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" required>
+            </div>
+            <div class="mb-3">
+                <label for="code" class="form-label">编码</label>
+                <input type="text" class="form-control" id="code" th:field="*{code}" required>
+            </div>
+            <div class="mb-3">
+                <label for="type" class="form-label">类型</label>
+                <select class="form-select" id="type" th:field="*{type}" required>
+                    <option value="menu">菜单</option>
+                    <option value="button">按钮</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="parentId" class="form-label">父菜单</label>
+                <select class="form-select" id="parentId" th:field="*{parentId}">
+                    <option value="">无</option>
+                    <option th:each="menu : ${menuPermissions}" th:value="${menu.id}" th:text="${menu.name}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="url" class="form-label">URL</label>
+                <input type="text" class="form-control" id="url" th:field="*{url}">
+            </div>
+            <div class="mb-3">
+                <label for="icon" class="form-label">图标</label>
+                <input type="text" class="form-control" id="icon" th:field="*{icon}">
+            </div>
+            <div class="mb-3">
+                <label for="orderNum" class="form-label">排序</label>
+                <input type="number" class="form-control" id="orderNum" th:field="*{orderNum}" value="0">
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="/permission/list" class="btn btn-secondary">取消</a>
+        </form>
+    </div>
+</body>
+</html>

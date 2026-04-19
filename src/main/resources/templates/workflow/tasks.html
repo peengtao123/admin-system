@@ -55,7 +55,7 @@
                 <td th:text="${task.processInstanceId}"></td>
                 <td th:text="${#dates.format(task.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td class="action">
-                    <a href="/workflow/complete-task?taskId=${task.id}" class="complete-button">完成</a>
+                    <a th:href="@{/workflow/complete-task(taskId=${task.id})}" class="complete-button">完成</a>
                 </td>
             </tr>
         </tbody>

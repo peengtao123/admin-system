@@ -101,6 +101,13 @@ public class WorkflowService {
         taskService.complete(taskId, variables);
     }
     
+    // 根据ID获取任务
+    public Task getTaskById(String taskId) {
+        return taskService.createTaskQuery()
+                .taskId(taskId)
+                .singleResult();
+    }
+    
     // 获取流程实例
     public List<com.example.adminsystem.entity.ProcessInstance> getProcessInstances() {
         return processInstanceRepository.findAll();

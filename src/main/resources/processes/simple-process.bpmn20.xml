@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="simpleProcess" name="Simple Process" isExecutable="true">
+    <startEvent id="startEvent"/>
+    <endEvent id="endEvent"/>
+    <sequenceFlow id="flow1" sourceRef="startEvent" targetRef="endEvent"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_simpleProcess">
+    <bpmndi:BPMNPlane bpmnElement="simpleProcess" id="BPMNPlane_simpleProcess">
+      <bpmndi:BPMNShape id="BPMNShape_startEvent" bpmnElement="startEvent">
+        <omgdc:Bounds x="100" y="100" width="30" height="30"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_endEvent" bpmnElement="endEvent">
+        <omgdc:Bounds x="300" y="100" width="30" height="30"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow1" bpmnElement="flow1">
+        <omgdi:waypoint x="130" y="115"/>
+        <omgdi:waypoint x="300" y="115"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

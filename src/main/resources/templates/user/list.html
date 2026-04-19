@@ -220,7 +220,10 @@
                 <tr th:each="user : ${users}">
                     <td th:text="${user.id}"></td>
                     <td th:text="${user.username}"></td>
-                    <td th:text="${user.role}"></td>
+                    <td>
+                        <span th:each="role, status : ${user.roles}" th:text="${role.name}" th:unless="${status.last}"></span>
+                        <span th:each="role, status : ${user.roles}" th:text="${role.name}" th:if="${status.last}"></span>
+                    </td>
                     <td>
                         <span th:each="dept : ${departments}" th:if="${dept.id == user.departmentId}" th:text="${dept.name}"></span>
                     </td>

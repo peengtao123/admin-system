@@ -37,11 +37,23 @@
                 <input type="password" class="form-control" id="password" th:field="${user.password}" required>
             </div>
             <div class="mb-3">
-                <label for="role" class="form-label">角色</label>
-                <select class="form-select" id="role" th:field="${user.role}" required>
-                    <option value="ADMIN">管理员</option>
-                    <option value="USER">普通用户</option>
-                </select>
+                <label class="form-label">角色</label>
+                <div class="row">
+                    <div class="col-md-12">
+                        <th:block th:each="role : ${roles}">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" 
+                                       th:id="'role-' + ${role.id}" 
+                                       th:name="roleIds" 
+                                       th:value="${role.id}" 
+                                       th:checked="${user.roles != null && user.roles.contains(role)}">
+                                <label th:for="'role-' + ${role.id}" class="form-check-label">
+                                    [[${role.name}]]
+                                </label>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="departmentId" class="form-label">部门</label>

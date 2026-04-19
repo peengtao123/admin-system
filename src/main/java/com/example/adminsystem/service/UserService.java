@@ -16,11 +16,11 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsernameWithRoles(username);
     }
 
     public List<User> findAll() {
-        return userRepository.findAll();
+        return userRepository.findAllWithRoles();
     }
 
     public User save(User user) {
@@ -39,7 +39,7 @@ public class UserService {
 
     public User findById(Long id) {
         if (id != null) {
-            return userRepository.findById(id).orElse(null);
+            return userRepository.findByIdWithRoles(id);
         }
         return null;
     }

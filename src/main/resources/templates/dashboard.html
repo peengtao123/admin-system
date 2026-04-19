@@ -332,6 +332,16 @@
                         <a class="nav-link" href="/departments">部门管理</a>
                     </li>
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="permissionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            权限管理
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="permissionDropdown">
+                            <li><a class="dropdown-item" href="/role/list">角色管理</a></li>
+                            <li><a class="dropdown-item" href="/permission/list">菜单管理</a></li>
+                            <li><a class="dropdown-item" href="/operation-log/list">操作日志</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="systemSettingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             系统设置
                         </a>
@@ -510,6 +520,24 @@
                             <p class="card-text">流程部署、启动、任务处理等工作流功能</p>
                             <div class="mt-4">
                                 <a href="/workflow/process-definitions" class="btn btn-primary">进入 <i class="fas fa-arrow-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="/role/list" class="card-link">
+                    <div class="card dashboard-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="rounded-circle bg-purple bg-opacity-10 p-3 mr-3">
+                                    <i class="fas fa-shield-alt text-purple"></i>
+                                </div>
+                                <h5 class="card-title">权限管理</h5>
+                            </div>
+                            <p class="card-text">角色管理、权限分配、菜单管理和操作日志</p>
+                            <div class="mt-4">
+                                <a href="/role/list" class="btn btn-primary">进入 <i class="fas fa-arrow-right ml-1"></i></a>
                             </div>
                         </div>
                     </div>

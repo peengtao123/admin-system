@@ -54,7 +54,32 @@
     </div>
     <form th:action="@{/workflow/complete-task}" method="post">
         <input type="hidden" name="taskId" th:value="${taskId}" />
-        <div class="form-group">
+        <input type="hidden" name="taskName" th:value="${taskName}" />
+        <div class="form-group" th:if="${taskName == '部门经理审批'}">
+            <label>是否批准</label>
+            <select name="approved" required>
+                <option value="">请选择</option>
+                <option value="true">批准</option>
+                <option value="false">拒绝</option>
+            </select>
+        </div>
+        <div class="form-group" th:if="${taskName == '部门经理审批'}">
+            <label>审批意见</label>
+            <input type="text" name="comment" placeholder="请输入审批意见（可选）" />
+        </div>
+        <div class="form-group" th:if="${taskName == '总经理审批'}">
+            <label>是否批准</label>
+            <select name="gmApproved" required>
+                <option value="">请选择</option>
+                <option value="true">批准</option>
+                <option value="false">拒绝</option>
+            </select>
+        </div>
+        <div class="form-group" th:if="${taskName == '总经理审批'}">
+            <label>审批意见</label>
+            <input type="text" name="gmComment" placeholder="请输入审批意见（可选）" />
+        </div>
+        <div class="form-group" th:unless="${taskName == '部门经理审批' || taskName == '总经理审批'}">
             <label>任务变量</label>
             <p>可在此处添加任务变量，格式为 key=value</p>
             <input type="text" name="var1" placeholder="变量1，如：approved=true" />

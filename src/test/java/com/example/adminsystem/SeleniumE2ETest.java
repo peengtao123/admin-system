@@ -168,6 +168,45 @@ class SeleniumE2ETest extends BaseSeleniumTest {
         assertThat(rows.size()).isGreaterThanOrEqualTo(1);
     }
 
+    @Test
+    @DisplayName("测试角色管理修改功能")
+    void testRoleUpdate() {
+        loginAsAdmin();
+        
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlContains("/dashboard"));
+        
+        // 导航到权限管理 -> 角色管理
+        WebElement permissionMenuLink = driver.findElement(By.linkText("权限管理"));
+        permissionMenuLink.click();
+        
+        WebElement roleMenuLink = driver.findElement(By.linkText("角色管理"));
+        roleMenuLink.click();
+        
+        wait.until(ExpectedConditions.urlContains("/role/list"));
+        
+        // 找到第一个角色的编辑按钮并点击
+        WebElement editButton = driver.findElement(By.cssSelector("a.btn-info"));
+        editButton.click();
+        
+        wait.until(ExpectedConditions.urlContains("/role/form"));
+        
+        // 修改角色描述
+        WebElement descriptionInput = driver.findElement(By.name("description"));
+        String newDescription = "测试修改后的角色描述 " + System.currentTimeMillis();
+        descriptionInput.clear();
+        descriptionInput.sendKeys(newDescription);
+        
+        // 保存修改
+        WebElement saveButton = driver.findElement(By.cssSelector("button[type='submit']"));
+        saveButton.click();
+        
+        wait.until(ExpectedConditions.urlContains("/role/list"));
+        
+        // 验证修改是否成功
+        assertThat(driver.getPageSource()).contains(newDescription);
+    }
+
     private void loginAsAdmin() {
         navigateTo("/login");
         
