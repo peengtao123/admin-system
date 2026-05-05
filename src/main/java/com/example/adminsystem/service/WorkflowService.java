@@ -10,6 +10,7 @@ import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class WorkflowService {
     @Autowired
     private ProcessInstanceRepository processInstanceRepository;
     
-    // 部署流程
+    @Transactional(rollbackFor = Exception.class)
     public Deployment deployProcess(MultipartFile file, String name) throws IOException {
         return repositoryService.createDeployment()
                 .name(name)
@@ -39,14 +40,14 @@ public class WorkflowService {
                 .deploy();
     }
     
-    // 获取所有流程定义
+    @Transactional(readOnly = true)
     public List<ProcessDefinition> getProcessDefinitions() {
         return repositoryService.createProcessDefinitionQuery()
                 .latestVersion()
                 .list();
     }
     
-    // 启动流程实例
+    @Transactional(rollbackFor = Exception.class)
     public com.example.adminsystem.entity.ProcessInstance startProcess(String processDefinitionKey, String businessKey, Map<String, Object> variables, String startedBy) {
         org.flowable.engine.runtime.ProcessInstance flowableProcessInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
         
@@ -89,41 +90,41 @@ public class WorkflowService {
         }
     }
     
-    // 获取用户任务
+    @Transactional(readOnly = true)
     public List<Task> getTasks(String assignee) {
         return taskService.createTaskQuery()
                 .taskAssignee(assignee)
                 .list();
     }
     
-    // 完成任务
+    @Transactional(rollbackFor = Exception.class)
     public void completeTask(String taskId, Map<String, Object> variables) {
         taskService.complete(taskId, variables);
     }
     
-    // 根据ID获取任务
+    @Transactional(readOnly = true)
     public Task getTaskById(String taskId) {
         return taskService.createTaskQuery()
                 .taskId(taskId)
                 .singleResult();
     }
     
-    // 获取流程实例
+    @Transactional(readOnly = true)
     public List<com.example.adminsystem.entity.ProcessInstance> getProcessInstances() {
         return processInstanceRepository.findAll();
     }
     
-    // 获取运行中的流程实例
+    @Transactional(readOnly = true)
     public List<com.example.adminsystem.entity.ProcessInstance> getRunningProcessInstances() {
         return processInstanceRepository.findByStatus("RUNNING");
     }
     
-    // 获取已完成的流程实例
+    @Transactional(readOnly = true)
     public List<com.example.adminsystem.entity.ProcessInstance> getCompletedProcessInstances() {
         return processInstanceRepository.findByStatus("COMPLETED");
     }
     
-    // 根据用户获取流程实例
+    @Transactional(readOnly = true)
     public List<com.example.adminsystem.entity.ProcessInstance> getProcessInstancesByUser(String startedBy) {
         return processInstanceRepository.findByStartedBy(startedBy);
     }

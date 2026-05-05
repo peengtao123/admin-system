@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Role> findAll(Pageable pageable) {
         if (pageable == null) {
             return Page.empty();
@@ -25,6 +27,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Role findById(Long id) {
         if (id == null) {
             return null;
@@ -33,12 +36,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     @SuppressWarnings("null")
     public Role save(Role role) {
         return roleRepository.save(role);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
         if (id != null) {
             roleRepository.deleteById(id);
@@ -46,11 +51,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Role> findAll() {
         return roleRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Role> findAllById(List<Long> ids) {
         if (ids == null || ids.isEmpty()) {
             return List.of();
@@ -59,6 +66,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Role findByName(String name) {
         return roleRepository.findByName(name);
     }
